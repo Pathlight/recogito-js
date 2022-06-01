@@ -1,8 +1,11 @@
 {
-  "name": "@recogito/recogito-js",
+  "name": "recogito-js",
   "version": "1.7.2",
   "description": "A JavaScript library for text annotation",
   "main": "dist/recogito.min.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "webpack serve --open --mode=development",
     "build": "webpack --mode=production",
@@ -10,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/recogito/recogito-js.git"
+    "url": "git+https://github.com/Pathlight/recogito-js.git"
   },
   "keywords": [
     "RecogitoJS",
@@ -19,9 +22,9 @@
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/recogito/recogito-js/issues"
+    "url": "https://github.com/Pathlight/recogito-js/issues"
   },
-  "homepage": "https://github.com/recogito/recogito-js#readme",
+  "homepage": "https://github.com/Pathlight/recogito-js#readme",
   "babel": {
     "presets": [
       "@babel/preset-env",
@@ -48,7 +51,7 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "@recogito/recogito-client-core": "1.7.3",
+    "recogito-client-core": "https://github.com/Pathlight/recogito-client-core",
     "preact": "^10.5.13",
     "tiny-emitter": "^2.1.0"
   }

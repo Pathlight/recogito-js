@@ -1,0 +1,1 @@
+npm pack && mv *.tgz ./versions

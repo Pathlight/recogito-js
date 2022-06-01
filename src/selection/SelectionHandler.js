@@ -73,10 +73,11 @@ export default class SelectionHandler extends EventEmitter {
       } else if (!this.readOnly) {
         const selectedRange = trimRange(selection.getRangeAt(0));
 
-        // Make sure the selection is entirely inside this.el
         const { commonAncestorContainer } = selectedRange;
+        const isAnnotatable = selectedRange.startContainer.parentNode.classList?.contains('annotatable')
 
-        if (contains(this.el, commonAncestorContainer)) {
+        // Ensure that the selection is marked as annotatable and is entirely inside this.el
+        if (isAnnotatable && contains(this.el, commonAncestorContainer)) {
           const stub = rangeToSelection(selectedRange, this.el);
 
           const spans = this.highlighter.wrapRange(selectedRange);

@@ -42,7 +42,13 @@ export default class Highlighter {
 
   _addAnnotation = annotation => {
     try {
-      const [ domStart, domEnd ] = this.charOffsetsToDOMPosition([ annotation.start, annotation.end ]);
+      const textPosSelector = annotation.underlying.target.selector[1]
+      const startNode = document.getElementById(textPosSelector.domId)
+      // Find the position on the DOM relative to the startNode
+      const [ domStart, domEnd ] = this.charOffsetsToDOMPosition(
+          startNode,
+          [ annotation.start, annotation.end ]
+      );
 
       const range = document.createRange();
       range.setStart(domStart.node, domStart.offset);
@@ -176,12 +182,13 @@ export default class Highlighter {
     return nodes;
   }
 
-  charOffsetsToDOMPosition = charOffsets => {
+  charOffsetsToDOMPosition = (startNode, charOffsets) => {
     const maxOffset = Math.max.apply(null, charOffsets);
 
     const textNodeProps = (() => {
       let start = 0;
-      return this.walkTextNodes(this.el, maxOffset).map(function(node) {
+      // Choose the position relative to the startNode of all annotatable text
+      return this.walkTextNodes(startNode, maxOffset).map(function(node) {
         var nodeLength = node.textContent.length,
             nodeProps = { node: node, start: start, end: start + nodeLength };
 

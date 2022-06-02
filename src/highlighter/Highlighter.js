@@ -42,8 +42,8 @@ export default class Highlighter {
 
   _addAnnotation = annotation => {
     try {
-      const textPosSelector = annotation.underlying.target.selector[1]
-      const startNode = document.getElementById(textPosSelector.domId)
+      const textPosSelector = annotation.selector('TextPositionSelector');
+      const startNode = document.getElementById(textPosSelector.domId);
       // Find the position on the DOM relative to the startNode
       const [ domStart, domEnd ] = this.charOffsetsToDOMPosition(
           startNode,

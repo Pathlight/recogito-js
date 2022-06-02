@@ -1,1 +1,1 @@
-npm pack && mv *.tgz ./versions
+npm pack && mkdir -p ./versions && mv *.tgz ./versions

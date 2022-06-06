@@ -379,7 +379,8 @@ export default class TextAnnotator extends Component {
             onAnnotationCreated={this.onCreateOrUpdateAnnotation('onAnnotationCreated')}
             onAnnotationUpdated={this.onCreateOrUpdateAnnotation('onAnnotationUpdated')}
             onAnnotationDeleted={this.onDeleteAnnotation}
-            onCancel={this.onCancelAnnotation} />
+            onCancel={this.onCancelAnnotation} 
+            config={this.props.config}/>
         }
 
         { this.state.selectedRelation &&

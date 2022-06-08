@@ -23,12 +23,13 @@ const contains = (containerEl, maybeChildEl) => {
 
 export default class SelectionHandler extends EventEmitter {
 
-  constructor(element, highlighter, readOnly) {
+  constructor(element, highlighter, readOnly, user) {
     super();
 
     this.el = element;
     this.highlighter = highlighter;
     this.readOnly = readOnly;
+    this.user = user;
 
     this.isEnabled = true;
 
@@ -124,7 +125,7 @@ export default class SelectionHandler extends EventEmitter {
         // Ensure that there is some annotatable node with an id to determine relative offsets
         // and is entirely inside this.el
         if (isAnnotatable && contains(this.el, commonAncestorContainer)) {
-          const stub = rangeToSelection(selectedRange, startNode);
+          const stub = rangeToSelection(selectedRange, startNode, this.user);
 
           const spans = this.highlighter.wrapRange(selectedRange);
           spans.forEach(span => span.className = 'r6o-selection');

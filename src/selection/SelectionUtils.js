@@ -40,7 +40,7 @@ export const trimRange = range => {
   return range;
 };
 
-export const rangeToSelection = (range, startNode) => {
+export const rangeToSelection = (range, startNode, user) => {
   // A helper range from the start of the startNode to the start of the selection
   const rangeBefore = document.createRange();
 
@@ -50,7 +50,8 @@ export const rangeToSelection = (range, startNode) => {
   const quote = range.toString();
   const start = rangeBefore.toString().length;
 
-  return new Selection({ 
+  return new Selection(
+    user, { 
     selector: [{
       type: 'TextQuoteSelector',
       exact: quote

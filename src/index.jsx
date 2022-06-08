@@ -166,7 +166,9 @@ export class Recogito {
 
   setAnnotations = arg => {
     const annotations = arg || [];
-    const webannotations = annotations.map(a => new WebAnnotation(a));
+    const webannotations = annotations.map(
+      ({web_annotation_data, creator}) => new WebAnnotation({...web_annotation_data, creator})
+    );
     return this._app.current.setAnnotations(webannotations);
   }
 

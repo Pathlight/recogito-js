@@ -74,11 +74,57 @@ export default class SelectionHandler extends EventEmitter {
         const selectedRange = trimRange(selection.getRangeAt(0));
 
         const { commonAncestorContainer } = selectedRange;
-        const isAnnotatable = selectedRange.startContainer.parentNode.classList?.contains('annotatable')
 
-        // Ensure that the selection is marked as annotatable and is entirely inside this.el
+        const findAnnotatableStartNode = (selectedRange) => {
+          /* Helper function which finds the annotatable start node
+           * This allows us to generally define a range of annotatable nodes
+           * eg:
+           * <div id="container-0" class="annotatable"> <!-- startNode -->
+           *   <div>
+           *     <span>"Lorem"</span>
+           *   </div>
+           *   <span>
+           *     "Lorem_"
+           *     <span class="r6o-annotation" data-id="id">ipsem</span>
+           *     "_"
+           *     <span class="r6o-selection">dolor</span>
+           *     "_sit_amet"
+           *   </span>
+           * </div>
+           * Selecting 'dolor' will be relative to the startNode:
+           * startOffset = 'Lorem'.length + 'Lorem_ipsem_'.length
+           * 
+           * eg:
+           * <div>
+           *   <div>
+           *     <span>"Lorem_ipsem"</span>
+           *   </div>
+           *   <span id="container-0" class="annotatable">  <!-- startNode -->
+           *     "Lorem_"
+           *     <span class="r6o-annotation" data-id="id">ipsem</span>
+           *     "_"
+           *     <span class="r6o-selection">dolor</span>
+           *     "_sit_amet"
+           *   </span>
+           * </div>
+           * Selecting 'dolor' will be relative to the startNode:
+           * startOffset = 'Lorem_ipsem_'.length
+           */
+          let isAnnotatable = false,
+              startNode = selectedRange.startContainer;
+          while (!isAnnotatable && startNode.parentNode) {
+            isAnnotatable = startNode.classList?.contains('annotatable') && startNode.id
+            if (!isAnnotatable) { 
+              startNode = startNode.parentNode;
+            }
+          }
+          return [isAnnotatable, startNode]
+        }
+        const [isAnnotatable, startNode] = findAnnotatableStartNode(selectedRange);
+        // Ensure that there is some annotatable node with an id to determine relative offsets
+        // and is entirely inside this.el
         if (isAnnotatable && contains(this.el, commonAncestorContainer)) {
-          const stub = rangeToSelection(selectedRange, this.el);
+          const stub = rangeToSelection(selectedRange, startNode);
 
           const spans = this.highlighter.wrapRange(selectedRange);
           spans.forEach(span => span.className = 'r6o-selection');

@@ -40,11 +40,11 @@ export const trimRange = range => {
   return range;
 };
 
-export const rangeToSelection = (range, containerEl) => {
+export const rangeToSelection = (range, startNode) => {
+  // A helper range from the start of the startNode to the start of the selection
   const rangeBefore = document.createRange();
 
-  // A helper range from the start of the contentNode to the start of the selection
-  rangeBefore.setStart(containerEl, 0);
+  rangeBefore.setStart(startNode, 0);
   rangeBefore.setEnd(range.startContainer, range.startOffset);
 
   const quote = range.toString();
@@ -57,7 +57,8 @@ export const rangeToSelection = (range, containerEl) => {
     }, {
       type: 'TextPositionSelector',
       start: start,
-      end: start + quote.length
+      end: start + quote.length,
+      domId: startNode.id
     }]
   });
 

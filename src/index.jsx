@@ -164,11 +164,12 @@ export class Recogito {
     return selected?.underlying;
   }
 
-  setAnnotations = arg => {
+  setAnnotations = (arg, callback) => {
     const annotations = arg || [];
-    const webannotations = annotations.map(
-      ({web_annotation_data, creator}) => new WebAnnotation({...web_annotation_data, creator})
-    );
+    const defaultCallback = ({web_annotation_data, creator}) => {
+      return new WebAnnotation({...web_annotation_data, creator})
+    }
+    const webannotations = annotations.map(callback || defaultCallback);
     return this._app.current.setAnnotations(webannotations);
   }
 
@@ -196,3 +197,5 @@ export class Recogito {
 }
 
 export const init = config => new Recogito(config);
+
+export {WebAnnotation};

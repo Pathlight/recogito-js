@@ -31,7 +31,7 @@ export default class Highlighter {
         if (remainder.length > 0) {
           render(remainder);
         } else {
-          console.log(`Rendered ${highlights.length}, took ${performance.now() - startTime}ms`);
+          // console.log(`Rendered ${highlights.length}, took ${performance.now() - startTime}ms`);
           resolve();
         }
       });
@@ -73,7 +73,12 @@ export default class Highlighter {
   getAllAnnotations = () => {
     const allAnnotationSpans = document.querySelectorAll('.r6o-annotation');
     const allAnnotations = Array.from(allAnnotationSpans).map(span => span.annotation);
-    return [...new Set(allAnnotations)];
+    const uniqAnnotations = allAnnotations.filter(
+      (annotation, index, self) => {
+        return self.findIndex(a => a.id === annotation.id) == index
+      }      
+    )
+    return [...new Set(uniqAnnotations)];
   }
 
   addOrUpdateAnnotation = (annotation, maybePrevious) => {

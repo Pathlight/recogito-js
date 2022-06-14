@@ -51,8 +51,9 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "recogito-client-core": "https://github.com/Pathlight/recogito-client-core",
+    "@babel/core": "^7.18.2",
     "preact": "^10.5.13",
+    "recogito-client-core": "git+https://github.com/Pathlight/recogito-client-core.git",
     "tiny-emitter": "^2.1.0"
   }
 }

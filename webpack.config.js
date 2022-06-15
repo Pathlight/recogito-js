@@ -26,10 +26,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      'react': 'preact/compat',
-      'react-dom': 'preact/compat',
-      'preact/compat': path.resolve(__dirname, 'node_modules', 'preact', 'compat'),
-      'preact/hooks': path.resolve(__dirname, 'node_modules', 'preact', 'hooks'),
+      'react': path.resolve('node_modules/react')
     }
   },
   module: {

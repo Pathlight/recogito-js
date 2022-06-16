@@ -165,6 +165,7 @@ export class Recogito {
   }
 
   setAnnotations = (arg, callback) => {
+    if (!this._app.current) return
     const annotations = arg || [];
     const defaultCallback = ({web_annotation_data, creator}) => {
       return new WebAnnotation({...web_annotation_data, creator})

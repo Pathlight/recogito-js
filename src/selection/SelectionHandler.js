@@ -68,8 +68,10 @@ export default class SelectionHandler extends EventEmitter {
             element: annotationSpan
           });
         } else {
+          // Don't de-select since react-select dom elements can be outside of the editor
+          // Selecting an element outside of the dom closes the editor prematurely
           // De-select
-          this.emit('select', {});
+          // this.emit('select', {});
         }
       } else if (!this.readOnly) {
         const selectedRange = trimRange(selection.getRangeAt(0));

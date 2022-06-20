@@ -11,7 +11,7 @@ const resolveAppPath = relativePath => path.resolve(APP_DIR, relativePath);
 module.exports = {
   entry: resolveAppPath('src'),
   output: {
-    filename: 'recogito.min.js',
+    filename: 'recogito.js',
     library: 'Recogito',
     libraryTarget: 'umd',
     umdNamedDefine: true

@@ -1,15 +1,14 @@
 {
   "name": "recogito-js",
-  "version": "1.7.7",
+  "version": "1.8.0",
   "description": "A JavaScript library for text annotation",
-  "main": "dist/recogito.min.js",
+  "main": "dist/recogito.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "start": "webpack serve --open --mode=development",
-    "build": "webpack --mode=production",
-    "build-polyfills": "webpack --mode=production --config webpack.polyfills.js"
+    "build": "webpack --mode=production"
   },
   "repository": {
     "type": "git",
@@ -58,7 +57,14 @@
     "react-dom": "^17.0.2"
   },
   "dependencies": {
-    "recogito-client-core": "git+https://github.com/Pathlight/recogito-client-core.git",
+    "fast-deep-equal": "^3.1.3",
+    "node-polyglot": "^2.4.0",
+    "react-autosize-textarea": "^7.1.0",
+    "react-draggable": "^4.4.3",
+    "react-select": "1.0.0-rc.10",
+    "react-transition-group": "^4.4.2",
+    "timeago-react": "^3.0.2",
+    "uuid": "^8.3.2",
     "tiny-emitter": "^2.1.0"
   }
 }

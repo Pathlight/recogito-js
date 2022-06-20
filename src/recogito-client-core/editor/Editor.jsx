@@ -330,13 +330,12 @@ export default class Editor extends Component {
           <div className="r6o-arrow" />
           <div className="r6o-editor-inner">
           {widgets.map((widget, idx) =>
-            <div className="widget">
+            <div key={`widget-${idx}`} className="widget">
               {widget.props.config?.inputLabel && 
                 <Label labelName={widget.props.config.inputLabel}/>}
               {React.cloneElement(widget, { 
                 ...this.props.config,
                 disabled,
-                key: `widget-${idx}`,
                 focus: idx === 0,
                 annotation : currentAnnotation,
                 readOnly : this.props.readOnly,

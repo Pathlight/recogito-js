@@ -40,6 +40,31 @@ export default class TextAnnotator extends Component {
       this.onCancelAnnotation();
   }
 
+  deselectOnClickOutside = evt => {
+    if (this.props.contentEl.contains(evt.target)) {
+      // Handle deselecting through SelectionHandler._onMouseUp
+      // when clicking something inside the contentEl
+      return
+    }
+    // Walk up the tree to find if we're clicking somewhere outside
+    // the contentEl and clear the state and selection if it's outside
+    // the editor and the contentEl
+    let currentNode = evt.target,
+        found = false;
+    while (currentNode && !found)  {
+      const {classList} = currentNode;
+      if (!classList || !classList.contains('r6o-editor')) {
+        currentNode = currentNode.parentNode;
+      } else {
+        found = true;
+      }
+    }
+    if (!currentNode) {
+      this.clearState();
+      this.selectionHandler.clearSelection();
+    }
+  }
+
   componentDidMount() {
     const {user, readOnly, formatter} = this.props.config
     this.highlighter = new Highlighter(this.props.contentEl, formatter);
@@ -54,10 +79,12 @@ export default class TextAnnotator extends Component {
     this.relationsLayer.on('cancelDrawing', this.closeRelationsEditor);
 
     document.addEventListener('keydown', this.handleEscape);
+    document.addEventListener('mouseup', this.deselectOnClickOutside);
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleEscape);
+    document.removeEventListener('mouseup', this.deselectOnClickOutside);
   }
 
   /**************************/

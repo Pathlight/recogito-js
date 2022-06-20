@@ -1,4 +1,5 @@
 import { trimRange, rangeToSelection, enableTouch, getExactOverlaps } from './SelectionUtils';
+import { TEXT_NODE } from '../utils';
 import EventEmitter from 'tiny-emitter';
 
 const IS_TOUCH = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -59,8 +60,11 @@ export default class SelectionHandler extends EventEmitter {
   _onMouseUp = evt => {
     if (this.isEnabled) {
       const selection = this.document.getSelection();
-
-      if (selection.isCollapsed) {
+      const {anchorNode, focusNode, isCollapsed} = selection
+      if (!anchorNode || !focusNode) {
+        return
+      }
+      if (isCollapsed) {
         const annotationSpan = evt.target.closest('.r6o-annotation');
         if (annotationSpan) {
           this.emit('select', {
@@ -68,10 +72,19 @@ export default class SelectionHandler extends EventEmitter {
             element: annotationSpan
           });
         } else {
-          // Don't de-select since react-select dom elements can be outside of the editor
-          // Selecting an element outside of the dom closes the editor prematurely
-          // De-select
-          // this.emit('select', {});
+          const allSelectionNodesAreText = [
+            anchorNode.nodeType,
+            focusNode.nodeType,
+          ].every(nodeType =>  nodeType === TEXT_NODE)
+          // Selections are mostly always Caret, so only clear the selection if
+          // we're clicking/selecting somewhere that are children of the contentEl 
+          // and they're all text nodes
+          if (selection.type === 'Caret' && allSelectionNodesAreText) {
+            this.emit('select', {});
+          }
+          // Non-text node selections can happen with react-select options and other
+          // dom elements. If the editor is not being closed when clicking somewhere within
+          // this.el, modify the conditions that deselect.
         }
       } else if (!this.readOnly) {
         const selectedRange = trimRange(selection.getRangeAt(0));

@@ -53,3 +53,4 @@ const deflateNodeList = parents => {
 
 }
 
+export const TEXT_NODE = 3; // HTML DOM node type for text nodes

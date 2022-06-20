@@ -1,4 +1,4 @@
-const TEXT = 3; // HTML DOM node type for text nodes
+import { TEXT_NODE } from "../utils";
 
 const RENDER_BATCH_SIZE = 100; // Number of annotations to render in one frame
 
@@ -174,7 +174,7 @@ export default class Highlighter {
     if (offset > stopOffset)
       return false;
 
-    if (node.nodeType === TEXT)
+    if (node.nodeType === TEXT_NODE)
       nodes.push(node);
 
     node = node.firstChild;

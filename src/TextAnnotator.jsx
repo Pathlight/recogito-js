@@ -61,7 +61,9 @@ export default class TextAnnotator extends Component {
     }
     if (!currentNode) {
       this.clearState();
-      this.selectionHandler.clearSelection();
+      // Don't clear any native selections as any element clicked outside
+      // can be input-like (eg. input, textarea, select, etc.)
+      this.selectionHandler.clearSelection(false);
     }
   }
 

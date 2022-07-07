@@ -172,9 +172,7 @@ export default class SelectionHandler extends EventEmitter {
     this.el.classList.add('r6o-hide-selection');
   }
 
-  clearSelection = () => {
-    this._currentSelection = null;
-
+  clearNativeSelection() {
     // Remove native selection, if any
     if (this.document.getSelection) {
       if (this.document.getSelection().empty) {  // Chrome
@@ -185,6 +183,11 @@ export default class SelectionHandler extends EventEmitter {
     } else if (this.document.selection) {  // IE?
       this.document.selection.empty();
     }
+  }
+
+  clearSelection = (withNative=true) => {
+    this._currentSelection = null;
+    if (withNative) this.clearNativeSelection(); 
 
     this.el.classList.remove('r6o-hide-selection');
 

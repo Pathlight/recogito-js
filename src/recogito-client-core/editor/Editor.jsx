@@ -373,7 +373,8 @@ export default class Editor extends Component {
                 onClick={this.onCancel}>{i18n.t('Cancel')}</button>
 
               <button 
-                className="r6o-btn "
+                className="r6o-btn"
+                disabled={currentAnnotation.bodies.length === 0}
                 onClick={this.onOk}>{i18n.t('Ok')}</button>
             </div>
           )}

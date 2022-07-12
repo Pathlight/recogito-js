@@ -17,6 +17,20 @@ export const ChevronDownIcon = props => {
 /**
  * Icon from IcoFont https://icofont.com/, licensed under the CC BY 4.0 license.
  */
+export const ChevronUpIcon = props => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 940" width={props.width}>
+      <metadata>IcoFont Icons</metadata>
+      <title>simple-up</title>
+      <glyph glyphName="simple-up" unicode="&#xeab9;" horizAdvX="1000" />
+      <path fill="currentColor" d="M285.1 692.6l214.89999999999998-214.90000000000003 214.89999999999998 214.90000000000003 85.10000000000002-85.10000000000002-300-300-300 300 85.10000000000002 85.10000000000002z"/>
+    </svg>
+  )
+}
+
+/**
+ * Icon from IcoFont https://icofont.com/, licensed under the CC BY 4.0 license.
+ */
 export const CloseIcon = props => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="180 150 700 800" width={props.width}>

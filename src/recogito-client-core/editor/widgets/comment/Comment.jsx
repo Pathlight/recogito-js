@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
-import TimeAgo from 'timeago-react';
-import DropdownMenu from './DropdownMenu';
+import React, { useState, useRef } from 'react';
+import useClickOutside from '../../useClickOutside';
 import TextEntryField from './TextEntryField';
-import PurposeSelect from './PurposeSelect';
-import { ChevronDownIcon } from '../../../Icons';
+import { ChevronDownIcon, ChevronUpIcon } from '../../../Icons';
 import i18n from '../../../i18n';
+
+const DropdownMenu = props => {
+
+  const ref = useRef();
+
+  // Custom hook that notifies when clicked outside this component
+  useClickOutside(ref, () => props.onClickOutside());
+
+  return (
+    <ul ref={ref} className="r6o-comment-dropdown-menu">
+      <li onClick={props.onEdit}>{i18n.t('Edit')}</li>
+      <li onClick={props.onDelete}>{i18n.t('Delete')}</li>
+    </ul>
+  )
+
+}
 
 /** A single comment inside the CommentWidget **/
 const Comment = props => {
@@ -24,28 +38,10 @@ const Comment = props => {
 
   const onUpdateComment = evt =>
     props.onUpdate(props.body, { ...props.body, value: evt.target.value });
-
-  const onChangePurpose = evt =>
-    props.onUpdate(props.body, { ...props.body, purpose: evt.value });
-
-  const timestamp = props.body.modified || props.body.created;
-
-  const creatorInfo = props.body.creator && 
-    <div className="r6o-lastmodified">
-      <span className="r6o-lastmodified-by">{props.body.creator.name || props.body.creator.id}</span>
-      { props.body.created && 
-        <span className="r6o-lastmodified-at">
-          <TimeAgo 
-            datetime={props.env.toClientTime(timestamp)}
-            locale={i18n.locale()} />
-        </span> 
-      }
-    </div>
   
   return props.readOnly ? (
     <div className="r6o-widget comment">
       <div className="r6o-readonly-comment">{props.body.value}</div>
-      { creatorInfo }
     </div>
   ) : (
     <div className={ isEditable ? "r6o-widget comment editable" : "r6o-widget comment"}>
@@ -55,20 +51,11 @@ const Comment = props => {
         onChange={onUpdateComment} 
         onSaveAndClose={props.onSaveAndClose}
       />
-      { !isEditable && creatorInfo }
-
-      { props.purposeSelector &&
-        <PurposeSelect
-            editable={isEditable}
-            content={props.body.purpose} 
-            onChange={onChangePurpose} 
-            onSaveAndClose={props.onSaveAndClose}
-          /> } 
           
       <div 
         className={isMenuVisible ? "r6o-icon r6o-arrow-down r6o-menu-open" : "r6o-icon r6o-arrow-down"} 
         onClick={() => setIsMenuVisible(!isMenuVisible)}>
-        <ChevronDownIcon width={12} />
+        {isMenuVisible ? <ChevronUpIcon width={12} /> : <ChevronDownIcon width={12} />}
       </div>
 
       { isMenuVisible && 

@@ -11,8 +11,7 @@ const SelectWidget = props => {
   // Use the context to determine which option to delete in the annotation.bodies
   // since we're using multiple SelectWidgets
   const {disabled, annotation, config} = props
-  const {options, context, className} = config
-  let {placeholder} = config
+  const {options, context, className, placeholder} = config
 
   const selectedOption = !annotation ? null : 
     annotation.bodies.find(b => b.purpose === CLASSIFYING && b.context === context);
@@ -35,11 +34,7 @@ const SelectWidget = props => {
   if (selectedOption) {
     selectedOptionValue = options.find(({value}) => value === selectedOption.value)
   }
-  // Change the placeholder if there isn't an option and it's disabled
-  if (!selectedOptionValue && disabled) {
-    placeholder = 'None'
-  }
-  return (
+  return disabled ? null :  (
       <Select
         value={selectedOptionValue}
         onChange={onChange}

@@ -53,12 +53,12 @@
   }
 
   .r6o-footer {
-    position:relative;
-    text-align:right;
+    display:flex;
+    justify-content: space-between;
     padding:8px 0;
 
-    .r6o-btn {
-      margin-right:8px;
+    &.right {
+      justify-content: end;
     }
 
     .r6o-btn.delete-annotation {

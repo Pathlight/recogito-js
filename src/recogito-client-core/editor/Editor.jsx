@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Draggable from 'react-draggable';
 import { getWidget, DEFAULT_WIDGETS } from './widgets';
 import Label from './Label';
-import { TrashIcon } from '../Icons';
 import setPosition from './setPosition';
 import i18n from '../i18n';
 
@@ -320,67 +318,52 @@ export default class Editor extends Component {
       !disabled;
 
     return (
-      <Draggable 
-        disabled={!this.props.detachable}
-        handle=".r6o-draggable" 
-        cancel=".r6o-btn, .r6o-btn *"
-        onDrag={() => this.setState({ dragged: true })}>
-
-        <div ref={this.element} className={this.state.dragged ? 'r6o-editor dragged' : 'r6o-editor'}>
-          <div className="r6o-arrow" />
-          <div className="r6o-editor-inner">
-          {widgets.map((widget, idx) =>
-            <div key={`widget-${idx}`} className="widget">
-              {widget.props.config?.inputLabel && 
-                <Label labelName={widget.props.config.inputLabel}/>}
-              {React.cloneElement(widget, { 
-                ...this.props.config,
-                disabled,
-                focus: idx === 0,
-                annotation : currentAnnotation,
-                readOnly : this.props.readOnly,
-                env: this.props.env,
-                onAppendBody: this.onAppendBody,
-                onUpdateBody: this.onUpdateBody,
-                onRemoveBody: this.onRemoveBody,
-                onUpsertBody: this.onUpsertBody,
-                onBatchModify: this.onBatchModify,
-                onSetProperty: this.onSetProperty,
-                onSaveAndClose: this.onOk
-              })}
-            </div>
-          )}
-          { this.props.readOnly || disabled ? (
-            <div className="r6o-footer">
-              <button
-                className="r6o-btn" 
-                onClick={this.onCancel}>{i18n.t('Close')}</button>
-            </div>
-          ) : (
-            <div 
-              className={this.props.detachable ? "r6o-footer r6o-draggable" : "r6o-footer"}>
-              { hasDelete && (
-                <button 
-                  className="r6o-btn left delete-annotation" 
-                  title={i18n.t('Delete')}
-                  onClick={this.onDelete}>
-                  <TrashIcon width={12} />
-                </button>
-              )}
-
-              <button 
-                className="r6o-btn outline"
-                onClick={this.onCancel}>{i18n.t('Cancel')}</button>
-
-              <button 
-                className="r6o-btn "
-                onClick={this.onOk}>{i18n.t('Ok')}</button>
-            </div>
-          )}
+      <div ref={this.element} className='r6o-editor'>
+        <div className="r6o-arrow" />
+        <div className="r6o-editor-inner">
+        <span className="btn btn-link close-annotation" onClick={this.onCancel}>
+          <i className="icon icon-x"/>
+        </span>
+        {widgets.map((widget, idx) =>
+          <div key={`widget-${idx}`} className="widget">
+            {widget.props.config?.inputLabel && 
+              <Label labelName={widget.props.config.inputLabel}/>}
+            {React.cloneElement(widget, { 
+              ...this.props.config,
+              disabled,
+              focus: idx === 0,
+              annotation : currentAnnotation,
+              readOnly : this.props.readOnly,
+              env: this.props.env,
+              onAppendBody: this.onAppendBody,
+              onUpdateBody: this.onUpdateBody,
+              onRemoveBody: this.onRemoveBody,
+              onUpsertBody: this.onUpsertBody,
+              onBatchModify: this.onBatchModify,
+              onSetProperty: this.onSetProperty,
+              onSaveAndClose: this.onOk
+            })}
           </div>
+        )}
+        
+        { this.props.readOnly || disabled ? null : (
+          <div 
+            className={hasDelete ? "r6o-footer" : "r6o-footer right"}>
+            { hasDelete && (
+              <button 
+                className="btn btn-secondary delete-annotation" 
+                onClick={this.onDelete}>
+                Delete
+              </button>
+            )}
+            <button 
+              className="btn btn-primary ok-annotation"
+              disabled={currentAnnotation.bodies.length === 0}
+              onClick={this.onOk}>{i18n.t('Ok')}</button>
+          </div>
+        )}
         </div>
-
-      </Draggable>
+      </div>
     )
 
   }

@@ -351,13 +351,13 @@ export default class Editor extends Component {
             className={hasDelete ? "r6o-footer" : "r6o-footer right"}>
             { hasDelete && (
               <button 
-                className="btn btn-secondary delete-annotation" 
+                className="btn btn-secondary btn-small delete-annotation" 
                 onClick={this.onDelete}>
                 Delete
               </button>
             )}
             <button 
-              className="btn btn-primary ok-annotation"
+              className="btn btn-primary btn-small ok-annotation"
               disabled={currentAnnotation.bodies.length === 0}
               onClick={this.onOk}>{i18n.t('Ok')}</button>
           </div>

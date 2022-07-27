@@ -34,7 +34,7 @@ const SelectWidget = props => {
   if (selectedOption) {
     selectedOptionValue = options.find(({value}) => value === selectedOption.value)
   }
-  return disabled ? null :  (
+  return !selectedOptionValue && disabled ? null :  (
       <Select
         value={selectedOptionValue}
         onChange={onChange}

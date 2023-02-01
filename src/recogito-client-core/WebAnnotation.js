@@ -119,5 +119,14 @@ export default class WebAnnotation {
   get end() {
     return this.selector('TextPositionSelector')?.end;
   }
-  
+
+  get domId() { 
+    return this.selector('TextPositionSelector').domId;
+  }
+
+  set domId(newDomId) {
+    const {target} = this.underlying
+    const currentSelectorWithOldIdIndex = target.selector.findIndex(t => t.domId == this.domId)
+    target.selector[currentSelectorWithOldIdIndex].domId = newDomId
+  }
 }

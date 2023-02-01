@@ -42,8 +42,9 @@ export default class Highlighter {
 
   _addAnnotation = annotation => {
     try {
-      const textPosSelector = annotation.selector('TextPositionSelector');
-      const startNode = document.getElementById(textPosSelector.domId);
+      const currentDomId = annotation.domId;
+      const startNode = document.querySelector(`span[data-backwards-compatible-id='${currentDomId}']`) ||
+                        document.getElementById(currentDomId);
       // Find the position on the DOM relative to the startNode
       const [ domStart, domEnd ] = this.charOffsetsToDOMPosition(
           startNode,

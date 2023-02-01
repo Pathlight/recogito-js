@@ -284,8 +284,17 @@ export default class Editor extends Component {
     } else {
       if (currentAnnotation.isSelection)
         this.props.onAnnotationCreated(undraft(currentAnnotation).toAnnotation());
-      else
-        this.props.onAnnotationUpdated(undraft(currentAnnotation), this.props.annotation);
+      else {
+        const undraftedAnnotation = undraft(currentAnnotation)
+        const originalNodeId = undraftedAnnotation.domId
+        const originalNode = document.querySelector(`span[data-backwards-compatible-id='${originalNodeId}']`)
+        if (originalNode) {
+          // If they make a change to an existing annotation, update the domId to the new domId
+          const newDomId = originalNode.id
+          undraftedAnnotation.domId = newDomId
+        }
+        this.props.onAnnotationUpdated(undraftedAnnotation, this.props.annotation);
+      }
     }
   }
 

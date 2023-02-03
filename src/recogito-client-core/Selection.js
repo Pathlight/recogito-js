@@ -10,11 +10,14 @@ import equals from 'fast-deep-equal';
 export default class Selection {
 
   constructor(creator, target, body) {
+    const isoString = (new Date()).toISOString()
     this.underlying = {
       creator,
       type: 'Selection',
       body: body || [],
-      target
+      target,
+      created: isoString,
+      modified: isoString,
     }
   }
 
@@ -36,6 +39,20 @@ export default class Selection {
 
   get creator() {
     return this.underlying.creator;
+  }
+
+  get created() {
+    return this.underlying.created
+  }
+
+  get modified() {
+    return this.underlying.modified;
+  }
+
+  updateModified() {
+    const isoString = (new Date()).toISOString()
+    this.underlying.modified = isoString
+    return this
   }
 
   get body() {

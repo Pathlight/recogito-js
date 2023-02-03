@@ -59,6 +59,20 @@ export default class WebAnnotation {
     return this.underlying.creator;
   }
 
+  get created() {
+    return this.underlying.created
+  }
+
+  get modified() {
+    return this.underlying.modified;
+  }
+
+  updateModified () {
+    const isoString = (new Date()).toISOString()
+    this.underlying.modified = isoString
+    return this
+  }
+
   get motivation() {
     return this.underlying.motivation;
   }

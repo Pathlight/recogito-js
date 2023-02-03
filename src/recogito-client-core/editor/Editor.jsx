@@ -125,7 +125,7 @@ export default class Editor extends Component {
 
   /** Shorthand **/ 
   updateCurrentAnnotation = (diff, saveImmediately) => this.setState({
-    currentAnnotation: this.state.currentAnnotation.clone(diff)
+    currentAnnotation: this.state.currentAnnotation.clone(diff).updateModified()
   }, () => {
     if (saveImmediately)
       this.onOk();
